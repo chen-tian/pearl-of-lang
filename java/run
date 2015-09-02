@@ -1,0 +1,31 @@
+#!/bin/bash
+
+
+if [ $# != 1 ]
+then
+  echo "Usage: $0 [dirname]"
+  exit 0
+fi
+
+MOD=$(basename $1)
+
+# Consistent with pom.xml's name
+# articfactId must be "pol-java-$MOD"
+JAR="./$MOD/target/pol-java-$MOD-1.0-uberjar.jar"
+
+if [ ! -f $JAR ]; then
+  echo "Error: Please compile ./$MOD first."
+  exit 0
+fi
+
+if [ -f ./$MOD/env ]; then
+  . ./$MOD/env
+fi
+
+CLASSPATH+=":$JAR"
+
+CMD="java -cp $CLASSPATH $JAVADEF $MOD"
+echo $CMD
+echo "------------------"
+$CMD
+

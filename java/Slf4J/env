@@ -1,0 +1,4 @@
+
+MOD_HOME=Slf4J
+CLASSPATH=./$MOD_HOME/conf
+#JAVADEF=-Dlog4j.debug

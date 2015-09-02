@@ -1,0 +1,25 @@
+#!/bin/bash
+
+
+if [ $# != 1 ]
+then
+  echo "Usage: $0 MODULE"
+  exit 0
+fi
+
+MOD=$1
+
+if [ -e $MOD ]; then
+  echo "Error: $MOD exists. Please remove it first."
+  exit 0
+fi
+
+cp -r HelloWorld $MOD
+rm -f $MOD/src/main/java/HelloWorld.java
+touch $MOD/src/main/java/$MOD.java
+
+sed -i "s/HelloWorld/$MOD/g" ./$MOD/pom.xml 
+
+echo -e "Done. Now you can start working on: $MOD/src/main/java/$MOD.java"
+
+
