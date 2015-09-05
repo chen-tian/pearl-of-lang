@@ -8,4 +8,16 @@ import java.util.regex.Pattern;
 
 TachyonConf.class.getClassLoader().getResourceAsStream(DEFAULT_PROPERTIES);
 
+import java.util.concurrent.CopyOnWriteArrayList;
+import com.google.common.base.Preconditions;
+
+Thrift
+
+Zookeeper
+
+import java.util.ServiceLoader;
+
+throw Throwables.propagate(e);
+
+
 
