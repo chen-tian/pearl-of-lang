@@ -11,6 +11,7 @@
     <module>Log4J</module>
     <module>Slf4J</module>
     <module>EnumCtor</module>
+    <module>DataIOStream</module>
   </modules>
 
   <build>
