@@ -14,12 +14,17 @@ if [ -e $MOD ]; then
   exit 0
 fi
 
+echo "Creating directory $MOD..."
 cp -r HelloWorld $MOD
 rm -f $MOD/src/main/java/HelloWorld.java
 touch $MOD/src/main/java/$MOD.java
 
+echo "Updating ./pom.xml and ./$MOD/pom.xml ..."
+sed -i "s|</modules>|  <module>$MOD</module>\n  </modules>|g" ./pom.xml 
 sed -i "s/HelloWorld/$MOD/g" ./$MOD/pom.xml 
 
-echo -e "Done. Now you can start working on: $MOD/src/main/java/$MOD.java"
+echo -e "Done! Now you can start working on: $MOD/src/main/java/$MOD.java"
+
+gvim $MOD/src/main/java/$MOD.java > /dev/null 2>&1 
 
 
