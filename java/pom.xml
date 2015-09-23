@@ -12,6 +12,7 @@
     <module>Slf4J</module>
     <module>EnumCtor</module>
     <module>DataIOStream</module>
+    <module>FruitBar</module>
   </modules>
 
   <build>

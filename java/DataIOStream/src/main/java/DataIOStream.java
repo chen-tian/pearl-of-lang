@@ -12,7 +12,7 @@ public class DataIOStream {
         float flt = 88.88f;
  
         try {
-          DataOutputStream dos = new DataOutputStream(new FileOutputStream("./target/tmp.data"));
+          DataOutputStream dos = new DataOutputStream(new FileOutputStream("./target/DataIOStream.data"));
  
           dos.writeInt(integer);
           dos.writeUTF(str);
@@ -20,7 +20,7 @@ public class DataIOStream {
           dos.flush();
           dos.close();
  
-          DataInputStream dis = new DataInputStream(new FileInputStream("./target/tmp.data"));
+          DataInputStream dis = new DataInputStream(new FileInputStream("./target/DataIOStream.data"));
 
           int a = dis.readInt();
           String s = dis.readUTF();
