@@ -1,10 +1,12 @@
 
+package dataiostream;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
- 
+
 public class DataIOStream {
     public static void main(String[] args) {
         int integer  = 1000;

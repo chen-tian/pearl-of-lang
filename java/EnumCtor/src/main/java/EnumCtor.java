@@ -1,4 +1,5 @@
 
+package enumctor;
 public final class EnumCtor {
   public enum University {
     STANFORD("Palo Alto", "CA", 1),

@@ -1,3 +1,4 @@
+package fruitbar;
 
 class FruitBar {
   public void usage() {

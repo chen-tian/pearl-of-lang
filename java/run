@@ -10,6 +10,8 @@ fi
 MOD=$(basename $1)
 shift
 
+PKG=${MOD,,}
+
 # Consistent with pom.xml's name
 # articfactId must be "pol-java-$MOD"
 JAR="./$MOD/target/pol-java-$MOD-1.0-uberjar.jar"
@@ -25,7 +27,7 @@ fi
 
 CLASSPATH+=":$JAR"
 
-CMD="java -cp $CLASSPATH $JAVADEF $MOD $@"
+CMD="java -cp $CLASSPATH $JAVADEF $PKG.$MOD $@"
 echo $CMD
 echo "------------------"
 $CMD

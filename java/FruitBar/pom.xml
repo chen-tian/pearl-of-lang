@@ -11,4 +11,34 @@
   <name>POL-Java: FruitBar</name>
   <packaging>jar</packaging>
   <version>1.0</version>
+
+  <dependencies>
+     <dependency>
+      <groupId>org.apache.thrift</groupId>
+      <artifactId>libthrift</artifactId>
+	    <version>0.9.0</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+  <plugins>
+  <plugin>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>exec-maven-plugin</artifactId>
+  <version>1.2.1</version>
+    <executions>
+        <execution>
+            <id>gen-thrift-code</id>
+            <phase>compile</phase>
+            <goals>
+                <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>${basedir}/src/main/java/thrift-gen.sh</executable>
+            </configuration>
+        </execution>
+    </executions>
+  </plugin>
+  </plugins>
+  </build>
 </project>
