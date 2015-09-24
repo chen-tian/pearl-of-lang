@@ -1,5 +1,7 @@
 package fruitbar;
 
+import fruitbar.master.FruitBarMaster;
+
 class FruitBar {
   public void usage() {
     System.out.println("FruitBar [server|client]");
@@ -13,6 +15,8 @@ class FruitBar {
     }
     if (argv[0].equals("server")) {
       System.out.println("Server is running");
+      FruitBarMaster master = new FruitBarMaster();
+      master.start();
     }
     else if (argv[0].equals("client")) {
       System.out.println("Client is running");
