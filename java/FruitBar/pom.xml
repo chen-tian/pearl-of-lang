@@ -12,11 +12,26 @@
   <packaging>jar</packaging>
   <version>1.0</version>
 
+  <!--libthrift will use slf4j 1.5.8, which causes some problem 
+      so we exclude it and declare our own dependence.
+      mvn depedency:tree gives more info
+  -->
   <dependencies>
      <dependency>
       <groupId>org.apache.thrift</groupId>
       <artifactId>libthrift</artifactId>
 	    <version>0.9.0</version>
+      <exclusions>
+            <exclusion>
+                <artifactId>slf4j-api</artifactId>
+                <groupId>org.slf4j</groupId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.2</version>
     </dependency>
   </dependencies>
 
@@ -29,12 +44,12 @@
     <executions>
         <execution>
             <id>gen-thrift-code</id>
-            <phase>compile</phase>
+            <phase>process-resources</phase>
             <goals>
                 <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>${basedir}/src/main/java/thrift-gen.sh</executable>
+              <executable>./src/main/java/thrift-gen.sh</executable>
             </configuration>
         </execution>
     </executions>

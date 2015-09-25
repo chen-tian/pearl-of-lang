@@ -1,16 +1,16 @@
 package fruitbar;
 
 import fruitbar.master.FruitBarMaster;
+import fruitbar.client.FruitBarClient;
 
 class FruitBar {
   public void usage() {
-    System.out.println("FruitBar [server|client]");
+    System.out.println("FruitBar server | client fruitname count");
     System.exit(1);
   }
 
   void run(String[] argv) {
-    System.out.println("argv " + argv.length);
-    if (argv.length != 1) {
+    if (argv.length == 0) {
       usage();
     }
     if (argv[0].equals("server")) {
@@ -19,7 +19,11 @@ class FruitBar {
       master.start();
     }
     else if (argv[0].equals("client")) {
-      System.out.println("Client is running");
+      if (argv.length != 3) {
+        usage();
+      }
+      FruitBarClient client = new FruitBarClient(argv[1], Integer.parseInt(argv[2]));    
+      client.connect();
     }
     else {
       usage();

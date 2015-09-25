@@ -34,13 +34,13 @@ public class FruitBarService {
 
   public interface Iface {
 
-    public void serve(Request req, Reply reply) throws org.apache.thrift.TException;
+    public Reply buyFruit(Request req) throws org.apache.thrift.TException;
 
   }
 
   public interface AsyncIface {
 
-    public void serve(Request req, Reply reply, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.serve_call> resultHandler) throws org.apache.thrift.TException;
+    public void buyFruit(Request req, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.buyFruit_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -64,25 +64,27 @@ public class FruitBarService {
       super(iprot, oprot);
     }
 
-    public void serve(Request req, Reply reply) throws org.apache.thrift.TException
+    public Reply buyFruit(Request req) throws org.apache.thrift.TException
     {
-      send_serve(req, reply);
-      recv_serve();
+      send_buyFruit(req);
+      return recv_buyFruit();
     }
 
-    public void send_serve(Request req, Reply reply) throws org.apache.thrift.TException
+    public void send_buyFruit(Request req) throws org.apache.thrift.TException
     {
-      serve_args args = new serve_args();
+      buyFruit_args args = new buyFruit_args();
       args.setReq(req);
-      args.setReply(reply);
-      sendBase("serve", args);
+      sendBase("buyFruit", args);
     }
 
-    public void recv_serve() throws org.apache.thrift.TException
+    public Reply recv_buyFruit() throws org.apache.thrift.TException
     {
-      serve_result result = new serve_result();
-      receiveBase(result, "serve");
-      return;
+      buyFruit_result result = new buyFruit_result();
+      receiveBase(result, "buyFruit");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "buyFruit failed: unknown result");
     }
 
   }
@@ -103,38 +105,35 @@ public class FruitBarService {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void serve(Request req, Reply reply, org.apache.thrift.async.AsyncMethodCallback<serve_call> resultHandler) throws org.apache.thrift.TException {
+    public void buyFruit(Request req, org.apache.thrift.async.AsyncMethodCallback<buyFruit_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      serve_call method_call = new serve_call(req, reply, resultHandler, this, ___protocolFactory, ___transport);
+      buyFruit_call method_call = new buyFruit_call(req, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class serve_call extends org.apache.thrift.async.TAsyncMethodCall {
+    public static class buyFruit_call extends org.apache.thrift.async.TAsyncMethodCall {
       private Request req;
-      private Reply reply;
-      public serve_call(Request req, Reply reply, org.apache.thrift.async.AsyncMethodCallback<serve_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public buyFruit_call(Request req, org.apache.thrift.async.AsyncMethodCallback<buyFruit_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.req = req;
-        this.reply = reply;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("serve", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        serve_args args = new serve_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("buyFruit", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        buyFruit_args args = new buyFruit_args();
         args.setReq(req);
-        args.setReply(reply);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws org.apache.thrift.TException {
+      public Reply getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        (new Client(prot)).recv_serve();
+        return (new Client(prot)).recv_buyFruit();
       }
     }
 
@@ -151,51 +150,48 @@ public class FruitBarService {
     }
 
     private static <I extends Iface> Map<String,  org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> getProcessMap(Map<String,  org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> processMap) {
-      processMap.put("serve", new serve());
+      processMap.put("buyFruit", new buyFruit());
       return processMap;
     }
 
-    public static class serve<I extends Iface> extends org.apache.thrift.ProcessFunction<I, serve_args> {
-      public serve() {
-        super("serve");
+    public static class buyFruit<I extends Iface> extends org.apache.thrift.ProcessFunction<I, buyFruit_args> {
+      public buyFruit() {
+        super("buyFruit");
       }
 
-      public serve_args getEmptyArgsInstance() {
-        return new serve_args();
+      public buyFruit_args getEmptyArgsInstance() {
+        return new buyFruit_args();
       }
 
       protected boolean isOneway() {
         return false;
       }
 
-      public serve_result getResult(I iface, serve_args args) throws org.apache.thrift.TException {
-        serve_result result = new serve_result();
-        iface.serve(args.req, args.reply);
+      public buyFruit_result getResult(I iface, buyFruit_args args) throws org.apache.thrift.TException {
+        buyFruit_result result = new buyFruit_result();
+        result.success = iface.buyFruit(args.req);
         return result;
       }
     }
 
   }
 
-  public static class serve_args implements org.apache.thrift.TBase<serve_args, serve_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("serve_args");
+  public static class buyFruit_args implements org.apache.thrift.TBase<buyFruit_args, buyFruit_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("buyFruit_args");
 
     private static final org.apache.thrift.protocol.TField REQ_FIELD_DESC = new org.apache.thrift.protocol.TField("req", org.apache.thrift.protocol.TType.STRUCT, (short)1);
-    private static final org.apache.thrift.protocol.TField REPLY_FIELD_DESC = new org.apache.thrift.protocol.TField("reply", org.apache.thrift.protocol.TType.STRUCT, (short)2);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
-      schemes.put(StandardScheme.class, new serve_argsStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new serve_argsTupleSchemeFactory());
+      schemes.put(StandardScheme.class, new buyFruit_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new buyFruit_argsTupleSchemeFactory());
     }
 
     public Request req; // required
-    public Reply reply; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      REQ((short)1, "req"),
-      REPLY((short)2, "reply");
+      REQ((short)1, "req");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -212,8 +208,6 @@ public class FruitBarService {
         switch(fieldId) {
           case 1: // REQ
             return REQ;
-          case 2: // REPLY
-            return REPLY;
           default:
             return null;
         }
@@ -259,51 +253,43 @@ public class FruitBarService {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.REQ, new org.apache.thrift.meta_data.FieldMetaData("req", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Request.class)));
-      tmpMap.put(_Fields.REPLY, new org.apache.thrift.meta_data.FieldMetaData("reply", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Reply.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(serve_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(buyFruit_args.class, metaDataMap);
     }
 
-    public serve_args() {
+    public buyFruit_args() {
     }
 
-    public serve_args(
-      Request req,
-      Reply reply)
+    public buyFruit_args(
+      Request req)
     {
       this();
       this.req = req;
-      this.reply = reply;
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public serve_args(serve_args other) {
+    public buyFruit_args(buyFruit_args other) {
       if (other.isSetReq()) {
         this.req = new Request(other.req);
       }
-      if (other.isSetReply()) {
-        this.reply = new Reply(other.reply);
-      }
     }
 
-    public serve_args deepCopy() {
-      return new serve_args(this);
+    public buyFruit_args deepCopy() {
+      return new buyFruit_args(this);
     }
 
     @Override
     public void clear() {
       this.req = null;
-      this.reply = null;
     }
 
     public Request getReq() {
       return this.req;
     }
 
-    public serve_args setReq(Request req) {
+    public buyFruit_args setReq(Request req) {
       this.req = req;
       return this;
     }
@@ -323,30 +309,6 @@ public class FruitBarService {
       }
     }
 
-    public Reply getReply() {
-      return this.reply;
-    }
-
-    public serve_args setReply(Reply reply) {
-      this.reply = reply;
-      return this;
-    }
-
-    public void unsetReply() {
-      this.reply = null;
-    }
-
-    /** Returns true if field reply is set (has been assigned a value) and false otherwise */
-    public boolean isSetReply() {
-      return this.reply != null;
-    }
-
-    public void setReplyIsSet(boolean value) {
-      if (!value) {
-        this.reply = null;
-      }
-    }
-
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case REQ:
@@ -357,14 +319,6 @@ public class FruitBarService {
         }
         break;
 
-      case REPLY:
-        if (value == null) {
-          unsetReply();
-        } else {
-          setReply((Reply)value);
-        }
-        break;
-
       }
     }
 
@@ -372,9 +326,6 @@ public class FruitBarService {
       switch (field) {
       case REQ:
         return getReq();
-
-      case REPLY:
-        return getReply();
 
       }
       throw new IllegalStateException();
@@ -389,8 +340,6 @@ public class FruitBarService {
       switch (field) {
       case REQ:
         return isSetReq();
-      case REPLY:
-        return isSetReply();
       }
       throw new IllegalStateException();
     }
@@ -399,12 +348,12 @@ public class FruitBarService {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof serve_args)
-        return this.equals((serve_args)that);
+      if (that instanceof buyFruit_args)
+        return this.equals((buyFruit_args)that);
       return false;
     }
 
-    public boolean equals(serve_args that) {
+    public boolean equals(buyFruit_args that) {
       if (that == null)
         return false;
 
@@ -417,15 +366,6 @@ public class FruitBarService {
           return false;
       }
 
-      boolean this_present_reply = true && this.isSetReply();
-      boolean that_present_reply = true && that.isSetReply();
-      if (this_present_reply || that_present_reply) {
-        if (!(this_present_reply && that_present_reply))
-          return false;
-        if (!this.reply.equals(that.reply))
-          return false;
-      }
-
       return true;
     }
 
@@ -434,13 +374,13 @@ public class FruitBarService {
       return 0;
     }
 
-    public int compareTo(serve_args other) {
+    public int compareTo(buyFruit_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      serve_args typedOther = (serve_args)other;
+      buyFruit_args typedOther = (buyFruit_args)other;
 
       lastComparison = Boolean.valueOf(isSetReq()).compareTo(typedOther.isSetReq());
       if (lastComparison != 0) {
@@ -448,16 +388,6 @@ public class FruitBarService {
       }
       if (isSetReq()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.req, typedOther.req);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = Boolean.valueOf(isSetReply()).compareTo(typedOther.isSetReply());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetReply()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.reply, typedOther.reply);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -479,7 +409,7 @@ public class FruitBarService {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("serve_args(");
+      StringBuilder sb = new StringBuilder("buyFruit_args(");
       boolean first = true;
 
       sb.append("req:");
@@ -487,14 +417,6 @@ public class FruitBarService {
         sb.append("null");
       } else {
         sb.append(this.req);
-      }
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("reply:");
-      if (this.reply == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.reply);
       }
       first = false;
       sb.append(")");
@@ -506,9 +428,6 @@ public class FruitBarService {
       // check for sub-struct validity
       if (req != null) {
         req.validate();
-      }
-      if (reply != null) {
-        reply.validate();
       }
     }
 
@@ -528,15 +447,15 @@ public class FruitBarService {
       }
     }
 
-    private static class serve_argsStandardSchemeFactory implements SchemeFactory {
-      public serve_argsStandardScheme getScheme() {
-        return new serve_argsStandardScheme();
+    private static class buyFruit_argsStandardSchemeFactory implements SchemeFactory {
+      public buyFruit_argsStandardScheme getScheme() {
+        return new buyFruit_argsStandardScheme();
       }
     }
 
-    private static class serve_argsStandardScheme extends StandardScheme<serve_args> {
+    private static class buyFruit_argsStandardScheme extends StandardScheme<buyFruit_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, serve_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, buyFruit_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -555,15 +474,6 @@ public class FruitBarService {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 2: // REPLY
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.reply = new Reply();
-                struct.reply.read(iprot);
-                struct.setReplyIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -575,7 +485,7 @@ public class FruitBarService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, serve_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, buyFruit_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -584,77 +494,63 @@ public class FruitBarService {
           struct.req.write(oprot);
           oprot.writeFieldEnd();
         }
-        if (struct.reply != null) {
-          oprot.writeFieldBegin(REPLY_FIELD_DESC);
-          struct.reply.write(oprot);
-          oprot.writeFieldEnd();
-        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
 
     }
 
-    private static class serve_argsTupleSchemeFactory implements SchemeFactory {
-      public serve_argsTupleScheme getScheme() {
-        return new serve_argsTupleScheme();
+    private static class buyFruit_argsTupleSchemeFactory implements SchemeFactory {
+      public buyFruit_argsTupleScheme getScheme() {
+        return new buyFruit_argsTupleScheme();
       }
     }
 
-    private static class serve_argsTupleScheme extends TupleScheme<serve_args> {
+    private static class buyFruit_argsTupleScheme extends TupleScheme<buyFruit_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, serve_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, buyFruit_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetReq()) {
           optionals.set(0);
         }
-        if (struct.isSetReply()) {
-          optionals.set(1);
-        }
-        oprot.writeBitSet(optionals, 2);
+        oprot.writeBitSet(optionals, 1);
         if (struct.isSetReq()) {
           struct.req.write(oprot);
-        }
-        if (struct.isSetReply()) {
-          struct.reply.write(oprot);
         }
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, serve_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, buyFruit_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(2);
+        BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           struct.req = new Request();
           struct.req.read(iprot);
           struct.setReqIsSet(true);
-        }
-        if (incoming.get(1)) {
-          struct.reply = new Reply();
-          struct.reply.read(iprot);
-          struct.setReplyIsSet(true);
         }
       }
     }
 
   }
 
-  public static class serve_result implements org.apache.thrift.TBase<serve_result, serve_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("serve_result");
+  public static class buyFruit_result implements org.apache.thrift.TBase<buyFruit_result, buyFruit_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("buyFruit_result");
 
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
-      schemes.put(StandardScheme.class, new serve_resultStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new serve_resultTupleSchemeFactory());
+      schemes.put(StandardScheme.class, new buyFruit_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new buyFruit_resultTupleSchemeFactory());
     }
 
+    public Reply success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-;
+      SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -669,6 +565,8 @@ public class FruitBarService {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
           default:
             return null;
         }
@@ -707,37 +605,87 @@ public class FruitBarService {
         return _fieldName;
       }
     }
+
+    // isset id assignments
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Reply.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(serve_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(buyFruit_result.class, metaDataMap);
     }
 
-    public serve_result() {
+    public buyFruit_result() {
+    }
+
+    public buyFruit_result(
+      Reply success)
+    {
+      this();
+      this.success = success;
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public serve_result(serve_result other) {
+    public buyFruit_result(buyFruit_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new Reply(other.success);
+      }
     }
 
-    public serve_result deepCopy() {
-      return new serve_result(this);
+    public buyFruit_result deepCopy() {
+      return new buyFruit_result(this);
     }
 
     @Override
     public void clear() {
+      this.success = null;
+    }
+
+    public Reply getSuccess() {
+      return this.success;
+    }
+
+    public buyFruit_result setSuccess(Reply success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
     }
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((Reply)value);
+        }
+        break;
+
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
       }
       throw new IllegalStateException();
     }
@@ -749,6 +697,8 @@ public class FruitBarService {
       }
 
       switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
       }
       throw new IllegalStateException();
     }
@@ -757,14 +707,23 @@ public class FruitBarService {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof serve_result)
-        return this.equals((serve_result)that);
+      if (that instanceof buyFruit_result)
+        return this.equals((buyFruit_result)that);
       return false;
     }
 
-    public boolean equals(serve_result that) {
+    public boolean equals(buyFruit_result that) {
       if (that == null)
         return false;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
 
       return true;
     }
@@ -774,14 +733,24 @@ public class FruitBarService {
       return 0;
     }
 
-    public int compareTo(serve_result other) {
+    public int compareTo(buyFruit_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      serve_result typedOther = (serve_result)other;
+      buyFruit_result typedOther = (buyFruit_result)other;
 
+      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -799,9 +768,16 @@ public class FruitBarService {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("serve_result(");
+      StringBuilder sb = new StringBuilder("buyFruit_result(");
       boolean first = true;
 
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
       sb.append(")");
       return sb.toString();
     }
@@ -809,6 +785,9 @@ public class FruitBarService {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
     }
 
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -827,15 +806,15 @@ public class FruitBarService {
       }
     }
 
-    private static class serve_resultStandardSchemeFactory implements SchemeFactory {
-      public serve_resultStandardScheme getScheme() {
-        return new serve_resultStandardScheme();
+    private static class buyFruit_resultStandardSchemeFactory implements SchemeFactory {
+      public buyFruit_resultStandardScheme getScheme() {
+        return new buyFruit_resultStandardScheme();
       }
     }
 
-    private static class serve_resultStandardScheme extends StandardScheme<serve_result> {
+    private static class buyFruit_resultStandardScheme extends StandardScheme<buyFruit_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, serve_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, buyFruit_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -845,6 +824,15 @@ public class FruitBarService {
             break;
           }
           switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new Reply();
+                struct.success.read(iprot);
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -856,32 +844,51 @@ public class FruitBarService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, serve_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, buyFruit_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
 
     }
 
-    private static class serve_resultTupleSchemeFactory implements SchemeFactory {
-      public serve_resultTupleScheme getScheme() {
-        return new serve_resultTupleScheme();
+    private static class buyFruit_resultTupleSchemeFactory implements SchemeFactory {
+      public buyFruit_resultTupleScheme getScheme() {
+        return new buyFruit_resultTupleScheme();
       }
     }
 
-    private static class serve_resultTupleScheme extends TupleScheme<serve_result> {
+    private static class buyFruit_resultTupleScheme extends TupleScheme<buyFruit_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, serve_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, buyFruit_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, serve_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, buyFruit_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = new Reply();
+          struct.success.read(iprot);
+          struct.setSuccessIsSet(true);
+        }
       }
     }
 

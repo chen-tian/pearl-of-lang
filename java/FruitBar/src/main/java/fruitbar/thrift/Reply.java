@@ -43,7 +43,7 @@ public class Reply implements org.apache.thrift.TBase<Reply, Reply._Fields>, jav
   }
 
   public String result; // required
-  public int price; // optional
+  public int price; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -109,13 +109,12 @@ public class Reply implements org.apache.thrift.TBase<Reply, Reply._Fields>, jav
   // isset id assignments
   private static final int __PRICE_ISSET_ID = 0;
   private byte __isset_bitfield = 0;
-  private _Fields optionals[] = {_Fields.PRICE};
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.RESULT, new org.apache.thrift.meta_data.FieldMetaData("result", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.PRICE, new org.apache.thrift.meta_data.FieldMetaData("price", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
+    tmpMap.put(_Fields.PRICE, new org.apache.thrift.meta_data.FieldMetaData("price", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Reply.class, metaDataMap);
@@ -125,10 +124,13 @@ public class Reply implements org.apache.thrift.TBase<Reply, Reply._Fields>, jav
   }
 
   public Reply(
-    String result)
+    String result,
+    int price)
   {
     this();
     this.result = result;
+    this.price = price;
+    setPriceIsSet(true);
   }
 
   /**
@@ -270,8 +272,8 @@ public class Reply implements org.apache.thrift.TBase<Reply, Reply._Fields>, jav
         return false;
     }
 
-    boolean this_present_price = true && this.isSetPrice();
-    boolean that_present_price = true && that.isSetPrice();
+    boolean this_present_price = true;
+    boolean that_present_price = true;
     if (this_present_price || that_present_price) {
       if (!(this_present_price && that_present_price))
         return false;
@@ -342,12 +344,10 @@ public class Reply implements org.apache.thrift.TBase<Reply, Reply._Fields>, jav
       sb.append(this.result);
     }
     first = false;
-    if (isSetPrice()) {
-      if (!first) sb.append(", ");
-      sb.append("price:");
-      sb.append(this.price);
-      first = false;
-    }
+    if (!first) sb.append(", ");
+    sb.append("price:");
+    sb.append(this.price);
+    first = false;
     sb.append(")");
     return sb.toString();
   }
@@ -429,11 +429,9 @@ public class Reply implements org.apache.thrift.TBase<Reply, Reply._Fields>, jav
         oprot.writeString(struct.result);
         oprot.writeFieldEnd();
       }
-      if (struct.isSetPrice()) {
-        oprot.writeFieldBegin(PRICE_FIELD_DESC);
-        oprot.writeI32(struct.price);
-        oprot.writeFieldEnd();
-      }
+      oprot.writeFieldBegin(PRICE_FIELD_DESC);
+      oprot.writeI32(struct.price);
+      oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
